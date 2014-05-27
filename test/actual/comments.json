@@ -1,13 +1,12 @@
 {
   "strings.js": {
     "name": "strings",
-    "path": "test/fixtures/strings.js",
+    "path": "../fixtures/strings.js",
     "comments": [
       [
         {
-          "description": "# new Strings()\n\n> Strings constructor method\n\nInstantiate a new instance of Strings, optionally passing a default context to use.",
+          "description": "## new Strings()\n\n> Strings constructor method\n\nInstantiate a new instance of Strings, optionally passing a default context to use.",
           "return": "{Object} Instance of a Strings object",
-          "description_html": "<h1 id=\"new-strings\">new Strings()</h1>\n<blockquote>\n<p>Strings constructor method</p>\n</blockquote>\n<p>Instantiate a new instance of Strings, optionally passing a default context to use.</p>\n",
           "line": 17
         },
         {
@@ -18,7 +17,6 @@
           ],
           "return": "{Object} Instance of the current Strings object",
           "api": "public",
-          "description_html": "<h2 id=\"propstring-name-propstring\">.propstring (name, propstring)</h2>\n<p>Get or set a propstring.</p>\n<p><strong>Example</strong></p>\n<pre><code class=\"lang-js\">strings.propstring(&#39;permalinks&#39;, &#39;:destBase/:dirname/:basename/index.:ext&#39;);\n</code></pre>\n",
           "params": [
             {
               "type": "String",
@@ -41,7 +39,6 @@
           ],
           "return": "{Object} Instance of the current Strings object",
           "api": "public",
-          "description_html": "<h2 id=\"pattern-name-pattern\">.pattern (name, pattern)</h2>\n<p>Get or set regular expression or string.</p>\n<p><strong>Example</strong></p>\n<pre><code class=\"lang-js\">strings.pattern(&#39;prop&#39;, &#39;:([\\\\w]+)&#39;);\n</code></pre>\n",
           "params": [
             {
               "type": "String",
@@ -64,7 +61,6 @@
           ],
           "return": "{Object} Instance of the current Strings object",
           "api": "public",
-          "description_html": "<h2 id=\"replacement-name-replacement\">.replacement (name, replacement)</h2>\n<p>Get or set a replacement string or function.</p>\n<p><strong>Example</strong></p>\n<pre><code class=\"lang-js\">strings.replacement(&#39;prop&#39;, function(match) {\n  return match.toUpperCase();\n});\n</code></pre>\n",
           "params": [
             {
               "type": "String",
@@ -89,7 +85,6 @@
           ],
           "return": "{Object} Instance of the current Strings object",
           "api": "public",
-          "description_html": "<h2 id=\"parser-name-replacement-patterns\">.parser ( name, replacement-patterns )</h2>\n<p>Define a named parser to be used against any given string.</p>\n<p><strong>Example</strong></p>\n<p>Pass an object:</p>\n<pre><code class=\"lang-js\">strings.parser(&#39;prop&#39;, {\n  pattern: /:([\\\\w]+)/,\n  replacement: function(match) {\n    return match.toUpperCase();\n  }\n);\n</code></pre>\n<p>Or an array</p>\n<pre><code class=\"lang-js\">strings.parser(&#39;prop&#39;, [\n  {\n    pattern: &#39;a&#39;,\n    replacement: &#39;b&#39;\n  },\n  {\n    pattern: &#39;c&#39;,\n    replacement: &#39;d&#39;\n  }\n]);\n</code></pre>\n",
           "params": [
             {
               "type": "String",
@@ -115,7 +110,7 @@
           "line": 125
         },
         {
-          "description": "## .extend ( parser, replacement-patterns )\n\nDefine a named extend to be used against any given string.\n\n**Example**\n\n```js\nstrings.extend('prop', {\n  pattern: /:([\\\\w]+)/,\n  replacement: function(match) {\n    return match.toUpperCase();\n  }\n);\n```",
+          "description": "## .extend ( parser, replacement-patterns )\n\nExtend a parser.\n\n**Example**\n\n```js\nstrings.extend('prop', {\n  pattern: /:([\\\\w]+)/,\n  replacement: function(match) {\n    return match.toUpperCase();\n  }\n);\n```",
           "param": [
             "{String} `name` name of the parser to extend.",
             "{Object|Array} `arr` array of replacement patterns to store with the given name.",
@@ -124,7 +119,6 @@
           ],
           "return": "{Object} Instance of the current Strings object",
           "api": "public",
-          "description_html": "<h2 id=\"extend-parser-replacement-patterns\">.extend ( parser, replacement-patterns )</h2>\n<p>Define a named extend to be used against any given string.</p>\n<p><strong>Example</strong></p>\n<pre><code class=\"lang-js\">strings.extend(&#39;prop&#39;, {\n  pattern: /:([\\\\w]+)/,\n  replacement: function(match) {\n    return match.toUpperCase();\n  }\n);\n</code></pre>\n",
           "params": [
             {
               "type": "String",
@@ -154,7 +148,6 @@
           "param": "{String|Array} `parsers` named parsers or parser objects to use.",
           "return": "{Array}",
           "api": "public",
-          "description_html": "<h2 id=\"parsers-parsers\">.parsers ( parsers )</h2>\n<p>Return a list of parsers based on the given list of named\nparsers or parser objects.</p>\n<p><strong>Example</strong></p>\n<pre><code class=\"lang-js\">// pass an array of parser names\nstrings.parsers([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]);\n\n// or a string\nstrings.parsers(&#39;a&#39;);\n</code></pre>\n",
           "params": [
             {
               "type": "String|Array",
@@ -173,7 +166,6 @@
           ],
           "return": "{String}",
           "api": "public",
-          "description_html": "<h2 id=\"template-name-propstring-parsers\">.template( name, propstring, parsers )</h2>\n<p>Store, by name, a named propstring and an array of parsers.</p>\n<p><strong>Example</strong></p>\n<pre><code class=\"lang-js\">// strings.template(name string, array);\nstrings.template(&#39;prop&#39;, [&#39;prop&#39;], {\n  foo: &#39;aaa&#39;,\n  bar: &#39;bbb&#39;,\n  baz: &#39;ccc&#39;\n});\n</code></pre>\n",
           "params": [
             {
               "type": "String",
@@ -201,7 +193,6 @@
           ],
           "return": "{String}",
           "api": "public",
-          "description_html": "<h2 id=\"transform-named-propstring-named-parsers-context\">.transform( named-propstring, named-parsers, context)</h2>\n<p>Similar to <code>.process</code>, except that the first parameter is the name\nof the stored <code>propstring</code> to use, rather than any given string.</p>\n<p><strong>Example</strong></p>\n<pre><code class=\"lang-js\">strings.transform(&#39;propstring&#39;, [&#39;parser&#39;], {\n  foo: &#39;aaa&#39;,\n  bar: &#39;bbb&#39;,\n  baz: &#39;ccc&#39;\n});\n</code></pre>\n<p>Or pass an object, <code>strings.transform({})</code>:</p>\n<pre><code class=\"lang-js\">strings.transform({\n  propstring: &#39;prop&#39;,\n  parsers: [&#39;prop&#39;],\n  context: {\n    foo: &#39;aaa&#39;,\n    bar: &#39;bbb&#39;,\n    baz: &#39;ccc&#39;\n  }\n});\n</code></pre>\n",
           "params": [
             {
               "type": "String",
@@ -224,7 +215,6 @@
           ],
           "return": "{String}",
           "api": "public",
-          "description_html": "<h2 id=\"use-named-propstring-named-parsers-context\">.use( named-propstring, named-parsers, context)</h2>\n<p>Similar to <code>.process</code>, except that the first parameter is the name\nof the stored <code>propstring</code> to use, rather than any given string.</p>\n<p><strong>Example</strong></p>\n<pre><code class=\"lang-js\">strings.use(&#39;propstring&#39;, [&#39;parser&#39;], {\n  foo: &#39;aaa&#39;,\n  bar: &#39;bbb&#39;,\n  baz: &#39;ccc&#39;\n});\n</code></pre>\n<p>Or pass an object, <code>strings.use({})</code>:</p>\n<pre><code class=\"lang-js\">strings.use({\n  propstring: &#39;prop&#39;,\n  parsers: [&#39;prop&#39;],\n  context: {\n    foo: &#39;aaa&#39;,\n    bar: &#39;bbb&#39;,\n    baz: &#39;ccc&#39;\n  }\n});\n</code></pre>\n",
           "params": [
             {
               "type": "String",
@@ -248,7 +238,6 @@
           ],
           "return": "{String}",
           "api": "public",
-          "description_html": "<h2 id=\"process-str-parsers-context\">.process (str, parsers, context)</h2>\n<p>Directly process the given string, using a named replacement\npattern or array of named replacement patterns, with the given\ncontext.</p>\n<p><strong>Example</strong></p>\n<pre><code class=\"lang-js\">strings.process(&#39;:foo/:bar/:baz&#39;, [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;], {\n  foo: &#39;aaa&#39;,\n  bar: &#39;bbb&#39;,\n  baz: &#39;ccc&#39;\n});\n</code></pre>\n",
           "params": [
             {
               "type": "String",
@@ -277,7 +266,6 @@
           ],
           "return": "{Object} Instance of the current Strings object",
           "api": "public",
-          "description_html": "<h2 id=\"group-name-propstring-parsers\">.group ( name, propstring, parsers )</h2>\n<p>Define a named group of propstring/parser mappings, or get a\ngroup if only the name is passed.</p>\n<p><strong>Example</strong></p>\n<pre><code class=\"lang-js\">strings.group(&#39;my-group-name&#39;, &#39;:foo/:bar/:baz&#39;, [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]);\n</code></pre>\n<p>To get a group:</p>\n<pre><code class=\"lang-js\">strings.group( name );\n</code></pre>\n",
           "params": [
             {
               "type": "String",
@@ -305,7 +293,6 @@
           ],
           "return": "{String}",
           "api": "public",
-          "description_html": "<h2 id=\"run-groupname-context\">.run ( groupname, context )</h2>\n<p>Process the specified group using the given context.</p>\n<p><strong>Example</strong></p>\n<p>Set: (<code>strings.run( string, object )</code>)</p>\n<pre><code class=\"lang-js\">strings.run(&#39;my-group-name&#39;, {\n  foo: &#39;aaa&#39;,\n  bar: &#39;bbb&#39;,\n  baz: &#39;ccc&#39;\n});\n</code></pre>\n",
           "params": [
             {
               "type": "String",

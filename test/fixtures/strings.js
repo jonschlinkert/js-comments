@@ -15,7 +15,7 @@ var utils = require('./lib/utils.js');
 
 
 /**
- * # new Strings()
+ * ## new Strings()
  *
  * > Strings constructor method
  *
@@ -176,7 +176,7 @@ Strings.prototype.parser = function (name, arr) {
 /**
  * ## .extend ( parser, replacement-patterns )
  *
- * Define a named extend to be used against any given string.
+ * Extend a parser.
  *
  * **Example**
  *

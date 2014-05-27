@@ -1,10 +1,10 @@
-# new Strings()
+## new Strings()
 
 > Strings constructor method
 
 Instantiate a new instance of Strings, optionally passing a default context to use.
 
-* `return`: {Object} Instance of a Strings object
+* `return`: {Object} Instance of a Strings object 
 
 
 ## .propstring ( name, propstring )
@@ -17,9 +17,9 @@ Get or set a propstring.
 strings.propstring('permalinks', ':destBase/:dirname/:basename/index.:ext');
 ```
 
-* `name` {String}:
-* `propstring` {String}:
-* `return`: {Object} Instance of the current Strings object
+* `name` {String}:  
+* `propstring` {String}:  
+* `return`: {Object} Instance of the current Strings object 
 
 
 ## .pattern ( name, pattern )
@@ -32,9 +32,9 @@ Get or set regular expression or string.
 strings.pattern('prop', ':([\\w]+)');
 ```
 
-* `name` {String}:
-* `pattern` {String}:
-* `return`: {Object} Instance of the current Strings object
+* `name` {String}:  
+* `pattern` {String}:  
+* `return`: {Object} Instance of the current Strings object 
 
 
 ## .replacement ( name, replacement )
@@ -49,9 +49,9 @@ strings.replacement('prop', function(match) {
 });
 ```
 
-* `name` {String}:
-* `replacement` {String}:
-* `return`: {Object} Instance of the current Strings object
+* `name` {String}:  
+* `replacement` {String}:  
+* `return`: {Object} Instance of the current Strings object 
 
 
 ## .parser ( name, replacement-patterns )
@@ -86,16 +86,16 @@ strings.parser('prop', [
 ]);
 ```
 
-* `name` {String}: name of the parser.
-* `pairings` {Object|Array}: array of replacement patterns to store with the given name.
-* `pattern` {String|RegExp}:
-* `replacement` {String|Function}:
-* `return`: {Object} Instance of the current Strings object
+* `name` {String}: name of the parser. 
+* `pairings` {Object|Array}: array of replacement patterns to store with the given name. 
+* `pattern` {String|RegExp}:  
+* `replacement` {String|Function}:  
+* `return`: {Object} Instance of the current Strings object 
 
 
 ## .extend ( parser, replacement-patterns )
 
-Define a named extend to be used against any given string.
+Extend a parser.
 
 **Example**
 
@@ -108,11 +108,11 @@ strings.extend('prop', {
 );
 ```
 
-* `name` {String}: name of the parser to extend.
-* `arr` {Object|Array}: array of replacement patterns to store with the given name.
-* `pattern` {String|RegExp}:
-* `replacement` {String|Function}:
-* `return`: {Object} Instance of the current Strings object
+* `name` {String}: name of the parser to extend. 
+* `arr` {Object|Array}: array of replacement patterns to store with the given name. 
+* `pattern` {String|RegExp}:  
+* `replacement` {String|Function}:  
+* `return`: {Object} Instance of the current Strings object 
 
 
 ## .parsers ( parsers )
@@ -130,8 +130,8 @@ strings.parsers(['a', 'b', 'c']);
 strings.parsers('a');
 ```
 
-* `parsers` {String|Array}: named parsers or parser objects to use.
-* `return`: {Array}
+* `parsers` {String|Array}: named parsers or parser objects to use. 
+* `return`: {Array} 
 
 
 ## .template ( name, propstring, parsers )
@@ -149,10 +149,10 @@ strings.template('prop', ['prop'], {
 });
 ```
 
-* `name` {String}: The name of the template to store
-* `name` {String}: Name of replacement group to use for building the final string
-* `context` {Object}: Optional Object to bind to replacement function as `this`
-* `return`: {String}
+* `name` {String}: The name of the template to store 
+* `name` {String}: Name of replacement group to use for building the final string 
+* `context` {Object}: Optional Object to bind to replacement function as `this` 
+* `return`: {String} 
 
 
 ## .transform ( named-propstring, named-parsers, context )
@@ -184,9 +184,9 @@ strings.transform({
 });
 ```
 
-* `name` {String}: The name of the stored template to use
-* `context` {Object}: The optional context object to bind to replacement functions as `this`
-* `return`: {String}
+* `name` {String}: The name of the stored template to use 
+* `context` {Object}: The optional context object to bind to replacement functions as `this` 
+* `return`: {String} 
 
 
 ## .use ( named-propstring, named-parsers, context )
@@ -218,9 +218,9 @@ strings.use({
 });
 ```
 
-* `name` {String}: The name of the stored template to use
-* `context` {Object}: The optional context object to bind to replacement functions as `this`
-* `return`: {String}
+* `name` {String}: The name of the stored template to use 
+* `context` {Object}: The optional context object to bind to replacement functions as `this` 
+* `return`: {String} 
 
 
 ## .process ( str, parsers, context )
@@ -239,10 +239,10 @@ strings.process(':foo/:bar/:baz', ['a', 'b', 'c'], {
 });
 ```
 
-* `str` {String}: the string to process
-* `parsers` {String|Object|Array}: named parsers or parser objects to use when processing.
-* `context` {Object}: context to use. optional if a global context is passed.
-* `return`: {String}
+* `str` {String}: the string to process 
+* `parsers` {String|Object|Array}: named parsers or parser objects to use when processing. 
+* `context` {Object}: context to use. optional if a global context is passed. 
+* `return`: {String} 
 
 
 ## .group ( name, propstring, parsers )
@@ -262,10 +262,10 @@ To get a group:
 strings.group( name );
 ```
 
-* `name` {String}:
-* `propstring` {String}: the name of the propstring to use
-* `parsers` {String|Array}: name or array of names of parsers to use
-* `return`: {Object} Instance of the current Strings object
+* `name` {String}:  
+* `propstring` {String}: the name of the propstring to use 
+* `parsers` {String|Array}: name or array of names of parsers to use 
+* `return`: {Object} Instance of the current Strings object 
 
 
 ## .run ( groupname, context )
@@ -284,6 +284,6 @@ strings.run('my-group-name', {
 });
 ```
 
-* `group` {String}: The group to run.
-* `context` {Object}: Optional context object, to bind to replacement function as `this`
+* `group` {String}: The group to run. 
+* `context` {Object}: Optional context object, to bind to replacement function as `this` 
 * `return`: {String}

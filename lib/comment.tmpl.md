@@ -5,5 +5,5 @@
 <%= comment.description %>
 <% _.each(comment.params, function(param) { %>
 * <%= param.name %> {<%= param.type %>}: <%= param.description %> <% }); %>
-* `return`: <%= comment.return %> <% }); %> <% }); %>
+* `return` <%= comment.return %> <% }); %> <% }); %>
 <% }); %>
