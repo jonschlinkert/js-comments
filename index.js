@@ -1,12 +1,13 @@
 /*!
- * parse comment
+ * js-comments <https://github.com/jonschlinkert/js-comments>
  *
- * Copyright (c) 2014 parse comment, contributors
+ * Copyright (c) 2014 Jon Schlinkert, contributors
  * Licensed under the MIT License (MIT)
  */
 
 'use strict';
 
+var path = require('path');
 var file = require('fs-utils');
 var comments = require('./lib/comments');
 var heading = require('./lib/headings');
@@ -40,7 +41,7 @@ module.exports = function(src, dest, options) {
   options = options || {};
 
   // The lodash template to use for comments
-  var tmpl = options.template || 'lib/comment.tmpl.md';
+  var tmpl = options.template || path.join(__dirname, './lib/comment.tmpl.md');
   var json = comments(src, dest);
   if (options.json) {
     file.writeJSONSync(options.json, json);

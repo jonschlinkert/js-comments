@@ -9,7 +9,7 @@ Install with [npm](npmjs.org):
 
 ```bash
 npm i js-comments --save
-```
+``` 
 
 ### [bower](https://github.com/bower/bower)
 
@@ -30,9 +30,9 @@ var output = comments('lib/*.js');
 See [test/actual/comments.md](./test/actual/comments.md) for example output.
 See [index.js](./index.js) for example comments.
 
-* `src` {String}: The source file path
-* `dest` {String}: Optional destination file path, not for output but for generating relative links.
-* `options` {Object}:
+* `src` {String}: The source file path 
+* `dest` {String}: Optional destination file path, not for output but for generating relative links. 
+* `options` {Object}:  
 * `return` {String}
 
 ## Author
@@ -43,7 +43,7 @@ See [index.js](./index.js) for example comments.
 + [twitter/jonschlinkert](http://twitter.com/jonschlinkert)
 
 ## License
-Copyright (c) 2014 Jon Schlinkert, contributors.
+Copyright (c) 2014 Jon Schlinkert, contributors.  
 Released under the MIT license
 
 ***
