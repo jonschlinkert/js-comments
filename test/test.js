@@ -1,28 +1,36 @@
 /*!
- * parse comment
+ * js-comments <https://githuc.com/jonschlinkert/js-comments>
  *
- * Copyright (c) 2014 parse comment, contributors
+ * Copyright (c) 2014 Jon Schlinkert, contributors
  * Licensed under the MIT License (MIT)
  */
 
 var file = require('fs-utils');
 var expect = require('chai').expect;
-var parseComment = require('../');
+var parseComment = require('../lib/parse');
 
-// describe('when foo is passed:', function () {
-//   it('should convert foo to bar.', function () {
-//     var fixture = '/*!\n * foo\n */\n\n\n/**\n * # Name \n * @param {String} `name`\n * @param {String} `propstring`\n */';
-//     var actual = parseComment(fixture);
-//     var expected = {};
-//     expect(actual).to.eql(expected);
-//   });
-// });
+function readFixture(src) {
+  var str = file.readFileSync('test/fixtures/' + src + '.js');
+  return parseComment(str);
+}
 
 
-var dest = 'test/actual/comments.md';
-var src = 'test/fixtures/strings.js';
-var foo = parseComment(src, dest, {
-  json: 'test/actual/comments.json'
+describe('when a string is passed:', function () {
+  it('should parse @params', function () {
+    var actual = readFixture('params');
+    expect(actual).to.have.length.of.at.least(1);
+    expect(actual[0]).to.have.property('param');
+  });
+
+  it('should parse @return', function () {
+    var actual = readFixture('return');
+    expect(actual).to.have.length.of.at.least(1);
+    expect(actual[0]).to.have.property('return');
+  });
+
+  it('should parse @api', function () {
+    var actual = readFixture('api');
+    expect(actual).to.have.length.of.at.least(1);
+    expect(actual[0]).to.have.property('api');
+  });
 });
-
-file.writeFileSync(dest, foo);
