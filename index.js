@@ -10,8 +10,10 @@
 var path = require('path');
 var file = require('fs-utils');
 var comments = require('./lib/comments');
-var heading = require('./lib/headings');
+var headings = require('./lib/headings');
 var _ = require('lodash');
+
+
 
 /**
  * ### parse( src, dest, options )
@@ -53,7 +55,7 @@ module.exports = function(src, dest, options) {
   // Clean up whitespace
   docs = docs.replace(/^\s+|\s+$/g, '');
 
-  // Adjust headings
-  return heading(docs, options.toc);
+  // Adjust toc
+  return headings(docs, options.toc);
 };
 
