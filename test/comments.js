@@ -16,7 +16,7 @@ module.exports = function (verb) {
   var utils = verb.utils;
   var tags = {};
 
-  tags.comments = function (patterns, options) {
+  tags.jscomments = function (patterns, options) {
     options = _.extend({}, options);
 
     // Extend the context with options defined in the tag
