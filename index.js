@@ -10,25 +10,23 @@
 var path = require('path');
 var file = require('fs-utils');
 var comments = require('./lib/comments');
-var headings = require('./lib/headings');
 var _ = require('lodash');
 
 
-
 /**
- * ### parse( src, dest, options )
+ * ### parse(src, dest, options)
  *
  * **Usage**
  *
  * ```js
  * var comments = require('js-comments');
- * var output = comments('lib/*.js');
+ * var docs = comments('lib/*.js');
  * ```
- * See [test/actual/comments.md](./test/actual/comments.md) for example output.
+ * See [test/actual/comments.json](./test/actual/comments.json) for example output.
  * See [index.js](./index.js) for example comments.
  *
  * @param   {String}  `src` The source file path
- * @param   {String}  `dest` Optional destination file path, not for output but for generating relative links.
+ * @param   {String}  `dest` Optional destination file path for generating relative links.
  * @param   {Object}  `options`
  * @return  {String}
  */
@@ -39,8 +37,13 @@ module.exports = function(src, dest, options) {
     dest = options.dest;
     src = options.src;
   }
+  if (typeof dest === 'object') {
+    options = dest;
+    dest = process.cwd();
+  }
 
   options = options || {};
+  dest = options.dest || process.cwd();
 
   // The lodash template to use for comments
   var tmpl = options.template || path.join(__dirname, './lib/comment.tmpl.md');
@@ -52,10 +55,6 @@ module.exports = function(src, dest, options) {
   var template = file.readFileSync(tmpl);
   var docs = _.template(template, {files: json});
 
-  // Clean up whitespace
-  docs = docs.replace(/^\s+|\s+$/g, '');
-
-  // Adjust toc
-  return headings(docs, options.toc);
+  // Remove leading and trailing whitespace
+  return docs.replace(/^\s+|\s+$/g, '');
 };
-
