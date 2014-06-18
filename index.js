@@ -47,7 +47,7 @@ module.exports = function(src, dest, options) {
 
   // The lodash template to use for comments
   var tmpl = options.template || path.join(__dirname, './lib/comment.tmpl.md');
-  var json = comments(src, dest);
+  var json = comments(src, dest, options);
   if (options.json) {
     file.writeJSONSync(options.json, json);
   }
