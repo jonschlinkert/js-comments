@@ -14,8 +14,43 @@ function readFixture(src) {
   return parseComment(str);
 }
 
+var comment = [
+  '/**',
+  ' * ## .parser',
+  ' *',
+  ' * Set a parser that can later be used to parse any given string.',
+  ' *',
+  ' * ```js',
+  ' * strings.parser (name, replacements)',
+  ' * ```',
+  ' *',
+  ' * **Example**',
+  ' *',
+  ' * {%= docs("example-parser.md") %}',
+  ' *',
+  ' * @param {String} `name`',
+  ' * @param {Object|Array} `arr` Object or array of replacement patterns to associate.',
+  ' *   @property {String|RegExp} `pattern`',
+  ' *   @property {String|Function} `replacement`',
+  ' * @return {Strings} to allow chaining',
+  ' *   @property {Array} `foo`',
+  ' * @api public',
+  ' */'
+].join('\n');
 
 describe('when a string is passed:', function () {
+  it('should parse a string', function () {
+    var actual = parseComment('/**\n@foo {Object} `bar`\n*/')
+    expect(actual).to.have.length.of.at.least(1);
+    expect(actual[0]).to.have.property('foo');
+  });
+
+  it('should parse a string', function () {
+    var actual = parseComment(comment)
+    expect(actual).to.have.length.of.at.least(1);
+    expect(actual[0]).to.have.property('param');
+  });
+
   it('should parse @params', function () {
     var actual = readFixture('params');
     expect(actual).to.have.length.of.at.least(1);
@@ -33,4 +68,6 @@ describe('when a string is passed:', function () {
     expect(actual).to.have.length.of.at.least(1);
     expect(actual[0]).to.have.property('api');
   });
+
 });
+

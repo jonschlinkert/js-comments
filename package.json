@@ -1,7 +1,7 @@
 {
   "name": "js-comments",
   "description": "Parse JavaScript code comments and generate API documentation. Modified from scrawl.js.",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "homepage": "https://github.com/jonschlinkert/js-comments",
   "author": {
     "name": "Jon Schlinkert",
@@ -22,14 +22,16 @@
   ],
   "keywords": [
     "api",
+    "code",
+    "comment",
+    "comments",
     "docs",
-    "documentation",
     "document",
+    "documentation",
     "javascript comments",
     "js comments",
-    "comments",
-    "comment",
-    "code",
+    "js docs",
+    "parse",
     "verb"
   ],
   "main": "index.js",
@@ -49,7 +51,7 @@
     "fs-utils": "^0.4.3",
     "lodash": "^2.4.1",
     "relative": "^0.1.4",
-    "strings": "^0.3.0",
+    "strings": "^0.4.0",
     "strip-banner": "^0.1.1"
   }
 }
