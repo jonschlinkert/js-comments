@@ -1,7 +1,7 @@
 {
   "name": "js-comments",
-  "description": "Parse JavaScript code comments and generate API documentation. Modified from scrawl.js.",
-  "version": "0.1.10",
+  "description": "Parse JavaScript code comments and generate API documentation.",
+  "version": "0.3.0",
   "homepage": "https://github.com/jonschlinkert/js-comments",
   "author": {
     "name": "Jon Schlinkert",
@@ -28,10 +28,13 @@
     "docs",
     "document",
     "documentation",
-    "javascript comments",
-    "js comments",
-    "js docs",
+    "javascript",
+    "js",
+    "markdown",
+    "md",
     "parse",
+    "readme",
+    "repo",
     "verb"
   ],
   "main": "index.js",
@@ -42,16 +45,18 @@
     "test": "mocha -R spec"
   },
   "devDependencies": {
-    "mocha": "^1.19.0",
     "chai": "^1.9.1",
+    "coffee-script": "^1.7.1",
+    "mocha": "^1.19.0",
+    "should": "^4.0.4",
     "verb": "~0.2.0"
   },
   "dependencies": {
     "frep": "^0.2.1",
     "fs-utils": "^0.4.3",
+    "js-comments-template": "^0.1.0",
     "lodash": "^2.4.1",
     "relative": "^0.1.4",
-    "strings": "^0.4.0",
     "strip-banner": "^0.1.1"
   }
 }

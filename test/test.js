@@ -6,12 +6,11 @@
  */
 
 var file = require('fs-utils');
-var expect = require('chai').expect;
-var parseComment = require('../lib/parse');
+var should = require('should');
+var jscomments = require('..');
 
 function readFixture(src) {
-  var str = file.readFileSync('test/fixtures/' + src + '.js');
-  return parseComment(str);
+  return file.readFileSync('test/fixtures/' + src + '.js');
 }
 
 var comment = [
@@ -38,36 +37,16 @@ var comment = [
   ' */'
 ].join('\n');
 
+
 describe('when a string is passed:', function () {
-  it('should parse a string', function () {
-    var actual = parseComment('/**\n@foo {Object} `bar`\n*/')
-    expect(actual).to.have.length.of.at.least(1);
-    expect(actual[0]).to.have.property('foo');
-  });
+  // it('should parse comments and return an object', function () {
+  //   var actual = jscomments('/**\n@foo {Object} `bar`\n*/');
+  //   actual.should.be.an.object;
+  // });
 
-  it('should parse a string', function () {
-    var actual = parseComment(comment)
-    expect(actual).to.have.length.of.at.least(1);
-    expect(actual[0]).to.have.property('param');
+  it('should parse comments and return an object', function () {
+    var actual = jscomments('test/fixtures/strings.js');
+    actual.should.be.an.object;
   });
-
-  it('should parse @params', function () {
-    var actual = readFixture('params');
-    expect(actual).to.have.length.of.at.least(1);
-    expect(actual[0]).to.have.property('param');
-  });
-
-  it('should parse @return', function () {
-    var actual = readFixture('return');
-    expect(actual).to.have.length.of.at.least(1);
-    expect(actual[0]).to.have.property('return');
-  });
-
-  it('should parse @api', function () {
-    var actual = readFixture('api');
-    expect(actual).to.have.length.of.at.least(1);
-    expect(actual[0]).to.have.property('api');
-  });
-
 });
 
