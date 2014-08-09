@@ -1,7 +1,7 @@
 {
   "name": "js-comments",
   "description": "Parse JavaScript code comments and generate API documentation.",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "homepage": "https://github.com/jonschlinkert/js-comments",
   "author": {
     "name": "Jon Schlinkert",
@@ -56,7 +56,7 @@
     "fs-utils": "^0.4.3",
     "js-comments-template": "^0.3.1",
     "lodash": "^2.4.1",
-    "parse-comments": "^0.1.1",
+    "parse-comments": "^0.1.2",
     "relative": "^0.1.4",
     "repeat-string": "^0.1.2",
     "strip-banner": "^0.1.1"
