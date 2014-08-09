@@ -13,8 +13,7 @@ var comments = require('./lib/comments');
 var _ = require('lodash');
 
 // Default readme template
-var defaultTemplate = require('js-comments-template').docs;
-
+var defaultTemplate = require('js-comments-template').readme;
 
 /**
  * ```js
@@ -30,7 +29,7 @@ var defaultTemplate = require('js-comments-template').docs;
  * @return  {String} Rendered documentation.
  */
 
-module.exports = function(src, dest, options) {
+module.exports = function (src, dest, options) {
   if (typeof src === 'object') {
     options = src;
     dest = options.dest;
@@ -51,7 +50,9 @@ module.exports = function(src, dest, options) {
     file.writeJSONSync(options.json, json);
   }
 
-  var docs = _.template(template, {files: json});
+  var docs = _.template(template, {
+    files: json
+  });
 
   // Remove leading and trailing whitespace
   return docs.replace(/^\s+|\s+$/g, '');
