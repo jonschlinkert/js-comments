@@ -9,7 +9,7 @@
 
 var path = require('path');
 var file = require('fs-utils');
-var comments = require('./lib/comments');
+var comments = require('./lib');
 var _ = require('lodash');
 
 // Default readme template
