@@ -7,7 +7,7 @@
 
 var file = require('fs-utils');
 var expect = require('chai').expect;
-var parseComment = require('../lib/comments');
+var parseComment = require('../lib/index');
 
 function readFixture(src) {
   var str = file.readFileSync('test/fixtures/' + src + '.js');
