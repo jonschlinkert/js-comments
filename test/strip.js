@@ -5,20 +5,20 @@
  * Licensed under the MIT License (MIT)
  */
 
-var file = require('fs-utils');
-var expect = require('chai').expect;
+var fs = require('fs');
+var should = require('should');
 var strip = require('strip-banner');
 
 
-function readFixture(src) {
-  var str = file.readFileSync('test/fixtures/' + src + '.js');
+function stripBanner(filepath) {
+  var src = 'test/fixtures/' + filepath + '.js';
+  var str = fs.readFileSync(src, 'utf8');
   return strip(str);
 }
 
-
 describe('utils:', function () {
   it('should strip banners', function () {
-    var actual = readFixture('params');
-    expect(actual).to.have.length.of.at.least(0);
+    var actual = stripBanner('banner');
+    /js-comments/.test(actual).should.be.false;
   });
 });

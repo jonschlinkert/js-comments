@@ -5,13 +5,17 @@
  * Licensed under the MIT License (MIT)
  */
 
-var file = require('fs-utils');
-var expect = require('chai').expect;
-var parseComment = require('../lib/index');
+'use strict';
 
-function readFixture(src) {
-  var str = file.readFileSync('test/fixtures/' + src + '.js');
-  return parseComment(str);
+var fs = require('fs');
+var should = require('should');
+var comments = require('../lib');
+
+
+function parseFixture(filepath) {
+  var src = 'test/fixtures/' + filepath + '.js';
+  var str = fs.readFileSync(src, 'utf8');
+  return comments.parse(str);
 }
 
 var comment = [
@@ -38,37 +42,44 @@ var comment = [
   ' */'
 ].join('\n');
 
-describe('when a string is passed:', function () {
-  it('should parse a string', function () {
-    var actual = parseComment('/**\n@foo {Object} `bar`\n*/')
-    console.log(actual)
-    // actual.comments.length.should.be(1);
-    // actual.comments[0].should.have.property('foo');
+
+describe('.parse():', function () {
+  describe('parse strings:', function () {
+    it('should parse a string', function () {
+      var actual = comments.parse('/**\n@foo {Object} `bar`\n*/');
+      actual.length.should.equal(1);
+      actual[0].should.have.property('foo');
+    });
+
+    it('should parse a string', function () {
+      var actual = comments.parse(comment);
+      actual.length.should.equal(1);
+      actual[0].should.have.property('param');
+    });
+
+    it('should parse comments and return an object', function () {
+      var actual = comments.parse('/**\n@foo {Object} `bar`\n*/');
+      actual.should.be.an.object;
+    });
   });
 
-  // it('should parse a string', function () {
-  //   var actual = parseComment(comment)
-  //   actual.comments.length.should.be(1);
-  //   actual.comments[0].should.have.property('param');
-  // });
+  describe('parse files', function () {
+    it('should parse @params', function () {
+      var actual = parseFixture('params');
+      actual.length.should.equal(1);
+      actual[0].should.have.property('param');
+    });
 
-  // it('should parse @params', function () {
-  //   var actual = readFixture('params');
-  //   actual.comments.length.should.be(1);
-  //   actual.comments[0].should.have.property('param');
-  // });
+    it('should parse @return', function () {
+      var actual = parseFixture('return');
+      actual.length.should.equal(1);
+      actual[0].should.have.property('return');
+    });
 
-  // it('should parse @return', function () {
-  //   var actual = readFixture('return');
-  //   actual.comments.length.should.be(1);
-  //   actual.comments[0].should.have.property('return');
-  // });
-
-  // it('should parse @api', function () {
-  //   var actual = readFixture('api');
-  //   actual.comments.length.should.be(1);
-  //   actual.comments[0].should.have.property('api');
-  // });
-
+    it('should parse @api', function () {
+      var actual = parseFixture('api');
+      actual.length.should.equal(1);
+      actual[0].should.have.property('api');
+    });
+  });
 });
-
