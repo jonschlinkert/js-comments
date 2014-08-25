@@ -21,6 +21,11 @@ bower install js-comments --save-dev
 ## API
 ## [jscomments](index.js#L43)
 
+* `patterns` **{String}**: Glob pattern or file paths to use.    
+* `dest` **{String}**: Optional destination file path for generating relative links.    
+* `options` **{Object}**    
+* `returns` **{String}**: String of rendered markdown documentation.  
+
 ```js
 var comments = require('js-comments');
 var docs = comments(string);
@@ -28,33 +33,24 @@ var docs = comments(string);
 See [example output](./test/actual/comments.json).
 See [example code comments](./index.js).
 
-* `patterns` **{String}**: Glob pattern or file paths to use.  
-* `dest` **{String}**: Optional destination file path for generating relative links.  
-* `options` **{Object}**  
-* `returns` **{String}**: String of rendered markdown documentation.  
-
-
-
 ## [.parseFiles](index.js#L60)
+
+* `patterns` **{String}**: Glob pattern or file paths to use.    
+* `dest` **{String}**: Optional destination file path for generating relative links.    
+* `options` **{Object}**    
+* `returns` **{Array}**: Returns an array of comments objects.  
 
 Expands the given glob `patterns` and creates a normalized
 `comments` object for each file in the array.
 
-* `patterns` **{String}**: Glob pattern or file paths to use.  
-* `dest` **{String}**: Optional destination file path for generating relative links.  
-* `options` **{Object}**  
-* `returns` **{Array}**: Returns an array of comments objects.  
-
-
-
 ## [.render](index.js#L89)
+
+* `context` **{Object}**    
+* `options` **{Object}**    
+* `returns` **{String}**: Return the rendered string.  
 
 Render a template string with the given `context`. A
 custom lodash template may be passed on the options.
-
-* `context` **{Object}**  
-* `options` **{Object}**  
-* `returns` **{String}**: Return the rendered string.
 
 ## Author
 

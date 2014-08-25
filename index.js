@@ -88,13 +88,27 @@ jscomments.parseFiles = function (patterns, dest, options) {
 
 jscomments.render = function (context, options) {
   var opts = _.extend({template: defaultTemplate}, options);
+  opts.helpers = opts.helpers || _.pick(opts, _.methods(opts));
 
-  var str = _.template(opts.template, {files: context}, {
+  var ctx = _.defaults({files: context}, opts, opts.data);
+  var str = _.template(opts.template, ctx, {
     imports: _.extend(helpers, opts.helpers)
   });
 
+  str = str.replace(/\r/g, '').replace(/\n{3,}/g, '\n\n');
+
+  var re = /^ *(#{1,6}) *([^\n]+?) *#* *(?:\n+|$)([\s\S]+?)\n/gm;
+  var match;
+
+  while(match = re.exec(str)) {
+    str = str.replace(match[2], function (match, a, b) {
+      return match + '\n';
+    });
+  }
+
   return str.replace(/^\s+|\s+$/g, '');
 };
+
 
 /**
  * Export `jscomments`
