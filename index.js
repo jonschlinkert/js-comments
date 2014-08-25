@@ -12,8 +12,8 @@
  */
 
 var _ = require('lodash');
-var path = require('path');
 var comments = require('./lib');
+var helpers = require('lodash-helpers');
 
 
 /**
@@ -37,10 +37,11 @@ var defaultTemplate = require('js-comments-template').readme;
  * @param {String} `dest` Optional destination file path for generating relative links.
  * @param {Object} `options`
  * @return  {String} String of rendered markdown documentation.
+ * @api public
  */
 
 var jscomments = function(patterns, dest, options) {
-  var files = jscomments.expandFiles(patterns, dest, options);
+  var files = jscomments.parseFiles(patterns, dest, options);
   return jscomments.render(files, options);
 };
 
@@ -53,9 +54,10 @@ var jscomments = function(patterns, dest, options) {
  * @param {String} `dest` Optional destination file path for generating relative links.
  * @param {Object} `options`
  * @return {Array} Returns an array of comments objects.
+ * @api public
  */
 
-jscomments.expandFiles = function (patterns, dest, options) {
+jscomments.parseFiles = function (patterns, dest, options) {
   if (typeof patterns === 'object') {
     options = patterns;
     dest = options.dest;
@@ -70,7 +72,7 @@ jscomments.expandFiles = function (patterns, dest, options) {
   var opts = _.extend({}, options);
 
   dest = dest || opts.dest || process.cwd();
-  return comments.expand(patterns, dest, opts);
+  return comments.parseFiles(patterns, dest, opts);
 };
 
 
@@ -81,15 +83,18 @@ jscomments.expandFiles = function (patterns, dest, options) {
  * @param  {Object} `context`
  * @param  {Object} `options`
  * @return {String} Return the rendered string.
+ * @api public
  */
 
 jscomments.render = function (context, options) {
-  var opts = _.extend({}, options);
-  var template = opts.template || defaultTemplate;
-  var str = _.template(template, {files: context});
+  var opts = _.extend({template: defaultTemplate}, options);
+
+  var str = _.template(opts.template, {files: context}, {
+    imports: _.extend(helpers, opts.helpers)
+  });
+
   return str.replace(/^\s+|\s+$/g, '');
 };
-
 
 /**
  * Export `jscomments`

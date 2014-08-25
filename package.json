@@ -1,7 +1,7 @@
 {
   "name": "js-comments",
   "description": "Parse JavaScript code comments and generate API documentation.",
-  "version": "0.2.5",
+  "version": "0.3.0",
   "homepage": "https://github.com/jonschlinkert/js-comments",
   "author": {
     "name": "Jon Schlinkert",
@@ -46,18 +46,17 @@
     "test": "mocha -R spec"
   },
   "devDependencies": {
-    "chai": "^1.9.1",
     "mocha": "^1.19.0",
     "should": "^4.0.4",
     "verb": "~0.2.0"
   },
   "dependencies": {
     "frep": "^0.2.1",
-    "fs-utils": "^0.4.3",
     "globby": "^0.1.1",
     "js-comments-template": "^0.3.1",
     "lodash": "^2.4.1",
-    "parse-comments": "^0.1.2",
+    "lodash-helpers": "^0.1.0",
+    "parse-comments": "^0.3.0",
     "relative": "^0.1.4",
     "repeat-string": "^0.1.2",
     "strip-banner": "^0.1.1"

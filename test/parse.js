@@ -46,7 +46,7 @@ var comment = [
 describe('.parse():', function () {
   describe('parse strings:', function () {
     it('should parse a string', function () {
-      var actual = comments.parse('/**\n@foo {Object} `bar`\n*/');
+      var actual = comments.parse('/**\n@foo {Object} `bar`\n@api public\n*/');
       actual.length.should.equal(1);
       actual[0].should.have.property('foo');
     });
@@ -58,8 +58,8 @@ describe('.parse():', function () {
     });
 
     it('should parse comments and return an object', function () {
-      var actual = comments.parse('/**\n@foo {Object} `bar`\n*/');
-      actual.should.be.an.object;
+      var actual = comments.parse('/**\n@foo {Object} `bar`\n@api public\n*/');
+      actual[0].should.have.property('foo');
     });
   });
 
