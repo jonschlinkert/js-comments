@@ -33,6 +33,7 @@ var defaultTemplate = require('js-comments-template').readme;
  * See [example output](./test/actual/comments.json).
  * See [example code comments](./index.js).
  *
+ *
  * @param {String} `patterns` Glob pattern or file paths to use.
  * @param {String} `dest` Optional destination file path for generating relative links.
  * @param {Object} `options`
