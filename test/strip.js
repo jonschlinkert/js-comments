@@ -1,12 +1,12 @@
 /*!
- * js-comments <https://githuc.com/jonschlinkert/js-comments>
+ * js-comments <https://github.com/jonschlinkert/js-comments>
  *
- * Copyright (c) 2014 Jon Schlinkert, contributors
- * Licensed under the MIT License (MIT)
+ * Copyright (c) 2014-2015, Jon Schlinkert.
+ * Licensed under the MIT License.
  */
 
 var fs = require('fs');
-var should = require('should');
+require('should');
 var strip = require('strip-banner');
 
 
