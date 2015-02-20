@@ -15,7 +15,6 @@ var _ = require('lodash');
 var comments = require('./lib');
 var helpers = require('lodash-helpers');
 
-
 /**
  * Default readme template
  *
@@ -23,7 +22,6 @@ var helpers = require('lodash-helpers');
  */
 
 var defaultTemplate = require('js-comments-template').readme;
-
 
 /**
  * ```js
@@ -41,11 +39,10 @@ var defaultTemplate = require('js-comments-template').readme;
  * @api public
  */
 
-var jscomments = function(patterns, dest, options) {
-  var files = jscomments.parseFiles(patterns, dest, options);
-  return jscomments.render(files, options);
-};
-
+function jsc(patterns, dest, options) {
+  var files = jsc.parseFiles(patterns, dest, options);
+  return jsc.render(files, options);
+}
 
 /**
  * Expands the given glob `patterns` and creates a normalized
@@ -58,7 +55,7 @@ var jscomments = function(patterns, dest, options) {
  * @api public
  */
 
-jscomments.parseFiles = function (patterns, dest, options) {
+jsc.parseFiles = function (patterns, dest, options) {
   if (typeof patterns === 'object') {
     options = patterns;
     dest = options.dest;
@@ -70,12 +67,11 @@ jscomments.parseFiles = function (patterns, dest, options) {
     dest = null;
   }
 
-  var opts = _.extend({}, options);
+  var opts = options || {};
 
   dest = dest || opts.dest || process.cwd();
   return comments.parseFiles(patterns, dest, opts);
 };
-
 
 /**
  * Render a template string with the given `context`. A
@@ -87,17 +83,16 @@ jscomments.parseFiles = function (patterns, dest, options) {
  * @api public
  */
 
-jscomments.render = function (context, options) {
+jsc.render = function (context, options) {
   var opts = _.extend({template: defaultTemplate}, options);
   opts.helpers = opts.helpers || _.pick(opts, _.methods(opts));
 
   var ctx = _.defaults({files: context}, opts, opts.data);
-  var str = _.template(opts.template, ctx, {
+  var str = _.template(opts.template, {
     imports: _.extend(helpers, opts.helpers)
-  });
+  }, ctx);
 
   str = str.replace(/\r/g, '').replace(/\n{3,}/g, '\n\n');
-
   var re = /^ *(#{1,6}) *([^\n]+?) *#* *(?:\n+|$)([\s\S]+?)\n/gm;
   var match;
 
@@ -110,9 +105,8 @@ jscomments.render = function (context, options) {
   return str.replace(/^\s+|\s+$/g, '');
 };
 
-
 /**
- * Export `jscomments`
+ * Export `jsc`
  */
 
-module.exports = jscomments;
+module.exports = jsc;
