@@ -27,7 +27,7 @@ describe('.parseFiles():', function () {
   it('should create a relative path to the dest file.', function () {
     var actual = comments.parseFiles('test/fixtures/api.js', 'README.md');
     actual.api.should.have.property('path');
-    actual.api.path.should.equal('test/fixtures/api.js');
+    actual.api.path.should.equal('./test/fixtures/api.js');
   });
 
   it('should not make the dest path relative if it\'s a url.', function () {
