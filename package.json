@@ -1,25 +1,42 @@
 {
   "name": "js-comments",
   "description": "Parse JavaScript code comments and generate API documentation.",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "homepage": "https://github.com/jonschlinkert/js-comments",
   "author": {
     "name": "Jon Schlinkert",
     "url": "https://github.com/jonschlinkert"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/jonschlinkert/js-comments.git"
-  },
+  "repository": "jonschlinkert/js-comments",
   "bugs": {
     "url": "https://github.com/jonschlinkert/js-comments/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/jonschlinkert/js-comments/blob/master/LICENSE-MIT"
-    }
+  "license": "MIT",
+  "files": [
+    "index.js",
+    "lib/"
   ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.8"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "frep": "^0.2.3",
+    "globby": "^1.1.0",
+    "js-comments-template": "^0.4.2",
+    "lodash": "^3.3.0",
+    "lodash-helpers": "^0.1.0",
+    "parse-comments": "^0.3.3",
+    "relative": "^1.2.0",
+    "repeat-string": "^1.5.0"
+  },
+  "devDependencies": {
+    "mocha": "^1.19.0",
+    "should": "^4.0.4"
+  },
   "keywords": [
     "api",
     "code",
@@ -37,28 +54,5 @@
     "readme",
     "repo",
     "verb"
-  ],
-  "main": "index.js",
-  "engines": {
-    "node": ">=0.8"
-  },
-  "scripts": {
-    "test": "mocha -R spec"
-  },
-  "devDependencies": {
-    "mocha": "^1.19.0",
-    "should": "^4.0.4",
-    "verb": "~0.2.0"
-  },
-  "dependencies": {
-    "frep": "^0.2.3",
-    "globby": "^0.1.1",
-    "js-comments-template": "^0.4.2",
-    "lodash": "^2.4.1",
-    "lodash-helpers": "^0.1.0",
-    "parse-comments": "^0.3.2",
-    "relative": "^0.1.6",
-    "repeat-string": "^0.1.2",
-    "strip-banner": "^0.1.1"
-  }
+  ]
 }
