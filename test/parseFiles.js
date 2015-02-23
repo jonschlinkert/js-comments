@@ -8,8 +8,8 @@
 'use strict';
 
 var fs = require('fs');
-require('should');
 var comments = require('../lib');
+require('should');
 
 function parseFixture(filepath) {
   var src = __dirname + '/fixtures/' + filepath + '.js';

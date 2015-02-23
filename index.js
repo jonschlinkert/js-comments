@@ -92,13 +92,13 @@ jsc.render = function (context, options) {
     imports: _.extend(helpers, opts.helpers)
   }, ctx);
 
-  str = str.replace(/\r/g, '').replace(/\n{3,}/g, '\n\n');
+  str = str.split('\r').join('').replace(/\n{3,}/g, '\n\n');
   var re = /^ *(#{1,6}) *([^\n]+?) *#* *(?:\n+|$)([\s\S]+?)\n/gm;
   var match;
 
   while(match = re.exec(str)) {
-    str = str.replace(match[2], function (match, a, b) {
-      return match + '\n';
+    str = str.replace(match[2], function (_, a, b) {
+      return _ + '\n';
     });
   }
 

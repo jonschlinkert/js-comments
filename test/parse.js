@@ -8,8 +8,8 @@
 'use strict';
 
 var fs = require('fs');
-require('should');
 var comments = require('../lib');
+require('should');
 
 var comment = [
   '/*!',
