@@ -39,9 +39,9 @@ var defaultTemplate = require('js-comments-template').readme;
  * @api public
  */
 
-function jsc(patterns, dest, options) {
-  var files = jsc.parseFiles(patterns, dest, options);
-  return jsc.render(files, options);
+function jsc(patterns, dest, opts) {
+  var files = jsc.parseFiles(patterns, dest, opts);
+  return jsc.render(files, opts);
 }
 
 /**
@@ -55,19 +55,19 @@ function jsc(patterns, dest, options) {
  * @api public
  */
 
-jsc.parseFiles = function (patterns, dest, options) {
+jsc.parseFiles = function (patterns, dest, opts) {
   if (typeof patterns === 'object') {
-    options = patterns;
-    dest = options.dest;
-    patterns = options.src;
+    opts = patterns;
+    dest = opts.dest;
+    patterns = opts.src;
   }
 
   if (typeof dest === 'object') {
-    options = dest;
+    opts = dest;
     dest = null;
   }
 
-  var opts = options || {};
+  var opts = opts || {};
 
   dest = dest || opts.dest || process.cwd();
   return comments.parseFiles(patterns, dest, opts);
@@ -83,14 +83,12 @@ jsc.parseFiles = function (patterns, dest, options) {
  * @api public
  */
 
-jsc.render = function (context, options) {
+jsc.render = function (files, options) {
   var opts = _.extend({template: defaultTemplate}, options);
   opts.helpers = opts.helpers || _.pick(opts, _.methods(opts));
 
-  var ctx = _.defaults({files: context}, opts, opts.data);
-  var str = _.template(opts.template, {
-    imports: _.extend(helpers, opts.helpers)
-  }, ctx);
+  var ctx = _.defaults({files: files}, opts, opts.data);
+  var str = _.template(opts.template, {imports: _.extend(helpers, opts.helpers)})(ctx);
 
   str = str.split('\r').join('').replace(/\n{3,}/g, '\n\n');
   var re = /^ *(#{1,6}) *([^\n]+?) *#* *(?:\n+|$)([\s\S]+?)\n/gm;
