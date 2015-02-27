@@ -33,7 +33,7 @@ describe('.parseFiles():', function () {
   it('should not make the dest path relative if it\'s a url.', function () {
     var actual = comments.parseFiles('test/fixtures/api.js', 'https://github.com/foo/bar');
     actual.api.should.have.property('path');
-    actual.api.path.should.equal('https://github.com/foo/bar/test/fixtures/api.js');
+    actual.api.path.should.equal('https://github.com/foo/bar/blob/master/api.js');
   });
 
   it('should parse @params', function () {
