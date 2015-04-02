@@ -38,13 +38,13 @@ exports.render = function render(comments, options) {
   if (opts.filter !== false) {
     opts.file.comments = exports.filter(opts.file.comments, opts);
   }
-  opts.template = opts.template || template;
+
   var settings = {};
   settings.imports = opts.imports || {};
-  opts.log = function (msg) {
-    return console.log.apply(console, arguments);
-  };
+
   var fn = opts.engine || _.template;
+  opts.template = opts.template || template;
+
   var result = fn(opts.template, {imports: opts.imports})(opts);
   if (opts.format) return exports.format(result);
   return result;
@@ -86,22 +86,17 @@ exports.filter = function filter(comments, opts) {
     if (o && o.type) {
       o.type = o.type;
     }
+
+    // update line numbers
     o.begin = o.begin || o.comment.begin;
-    o.end = o.end || o.comment.end;
     o.context.begin = o.context.begin || o.begin;
-    // console.log(o)
-
-    if (o.doc) {
-      console.log(o.doc);
-      o.doc = '{%= docs("' + o.doc + '") %}';
-      o.description = o.doc + '\n\n' + o.description;
-    }
-
+    o.end = o.end || o.comment.end;
     o.line = o.end ? (o.end + 2) : o.begin;
 
     if (o.noname) {
       o.heading.text = o.noname;
       res.push(o);
+      o = null;
       return res;
     }
 
@@ -128,11 +123,21 @@ exports.filter = function filter(comments, opts) {
     if (text) {
       if (heading.prefix) {
         text = heading.prefix + text;
+        heading = null;
       }
       o.prefixed = prefix + ' ' + text;
       o.title = text;
     }
+
+    if (o.doc) {
+      var tmp = o.doc;
+      var tag = ('{%= docs("' + tmp + '") %}');
+      o.doc = null;
+      o.description = o.description || '';
+      o.description = tag + '\n\n' + o.description;
+    }
     res.push(o);
+    o = null;
   }
   return res;
 };
@@ -173,54 +178,3 @@ exports.headings = function headings(str) {
     return match.replace(/^##/gm, '#');
   });
 };
-
-/**
- * Format markdown, adjusts beginning and ending whitespace only.
- */
-
-function whitespace(str) {
-  return str.trim() + '\n';
-}
-
-/**
- * Format markdown, aggressive whitespace re-formatting.
- */
-
-function aggressive(str) {
-  function replace(a, b) {
-    str = str.replace(a, b);
-  }
-
-  replace(/[\r\n]+/g, '\n');
-  // Not-lists
-  replace(/^\s*([^\*]+)$/gm, '\n$1\n');
-  // Headings
-  replace(/^((#{1,6})\s*(.*?)\s*#*\s*(?:\n|$))/gm, '\n$1\n');
-  // Headings
-  replace(/^\s+(#.+)/gm, '\n$1');
-  // Before fenced code blocks
-  replace(/\s*(`{3}\S+)/gm, '\n\n$1');
-  // Blockquotes
-  replace(/^\s*(>.+)/gm, '\n$1\n');
-  return str.split('\n').join('  \n');
-}
-
-/**
- * Replace extraneous newlines with a single newline.
- *
- * @title compact
- * @param  {String} str
- *
- * @return {String}
- * @api public
- */
-
-function condense(str, sep) {
-  str = str.replace(/\r/g, '');
-  sep = sep || '\n';
-
-  str = (str || '\n\n').replace(/\n\n+/g, '\n\n');
-  return str.split(sep).map(function (line) {
-    return line.trim();
-  }).filter(Boolean).join(sep);
-}
