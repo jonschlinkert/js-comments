@@ -7,8 +7,6 @@
 
 'use strict';
 
-var _ = require('lodash');
-
 
 /**
  * Initialize a new `Options` cache.
