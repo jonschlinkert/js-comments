@@ -11,16 +11,9 @@
  * Module dependencies.
  */
 
-var fs = require('fs');
 var parse = require('parse-comments');
-var tmpl = require('js-comments-template');
-var _ = require('lodash');
-
-// function read (fp) {
-//   return fs.readFileSync(fp, 'utf8');
-// }
-
-// // var str = read('test/fixtures/opts.js');
+var template = require('js-comments-template');
+var _ = require('lodash').runInContext();
 
 /**
  * Parse comments from the given `str`.
@@ -29,9 +22,7 @@ var _ = require('lodash');
  * @return  {Object} Object of comments.
  */
 
-exports.parse = function parser(str, options, cb) {
-  return filter(parse(str, options), options);
-};
+exports.parse = parse;
 
 /**
  * Process the given Lo-dash `template` string, passing a
@@ -42,12 +33,20 @@ exports.parse = function parser(str, options, cb) {
  * @return {String}
  */
 
-exports.render = function render(template, comments, options) {
-  options = options || {};
-  var settings = {imports: options.imports };
-
-  var result = _.template(template || tmpl, settings)(comments);
-  if (options.format) return format(condense(result));
+exports.render = function render(comments, options) {
+  var opts = _.extend({file: {path: '', comments: comments}}, options);
+  if (opts.filter !== false) {
+    opts.file.comments = exports.filter(opts.file.comments, opts);
+  }
+  opts.template = opts.template || template;
+  var settings = {};
+  settings.imports = opts.imports || {};
+  opts.log = function (msg) {
+    return console.log.apply(console, arguments);
+  };
+  var fn = opts.engine || _.template;
+  var result = fn(opts.template, {imports: opts.imports})(opts);
+  if (opts.format) return exports.format(result);
   return result;
 };
 
@@ -59,36 +58,41 @@ exports.render = function render(template, comments, options) {
  * @return {Object} Normalized comments object.
  */
 
-function filter(comments, opts) {
+exports.filter = function filter(comments, opts) {
   opts = opts || {};
+  var len = comments.length, i = 0;
+  var res = [];
 
-  return comments.filter(function (o, i) {
+  while (len--) {
+    var o = comments[i++];
+    if (o.comment.begin === 1) {
+      continue;
+    }
     if (o.string && /^.{1,8}!/.test(o.string)) {
-      return false;
+      continue;
     }
     if (opts.stripBanner && i === 0) {
-      return false;
+      continue;
     }
     if (o.type === 'property') {
-      return false;
+      continue;
     }
-    if (o.section === true) {
-      o.heading.level = 1;
-      return true;
+    if (!o.api || o.api !== 'public') {
+      continue;
     }
-    if (o.api && o.api === 'public') {
-      return true;
-    } else {
-      return false;
-    }
-  }).map(function (o) {
+
     // If the user explicitly defines a `@type`,
     // use that instead of the code context type
     if (o && o.type) {
       o.type = o.type;
     }
+    o.begin = o.begin || o.comment.begin;
+    o.end = o.end || o.comment.end;
+    o.context.begin = o.context.begin || o.begin;
+    // console.log(o)
 
     if (o.doc) {
+      console.log(o.doc);
       o.doc = '{%= docs("' + o.doc + '") %}';
       o.description = o.doc + '\n\n' + o.description;
     }
@@ -97,15 +101,20 @@ function filter(comments, opts) {
 
     if (o.noname) {
       o.heading.text = o.noname;
-      return o;
+      res.push(o);
+      return res;
     }
 
     var heading = o.heading || {};
-    var lvl = heading.level || 2;
+    if (o.section === true) {
+      heading.level = 1;
+    }
 
+    var lvl = heading.level || 2;
     if (o.name) {
       heading.text = o.name;
     }
+
     if (!o.section) {
       lvl = heading.lvl || 2;
     }
@@ -123,23 +132,27 @@ function filter(comments, opts) {
       o.prefixed = prefix + ' ' + text;
       o.title = text;
     }
-
-    return o;
-  });
+    res.push(o);
+  }
+  return res;
 };
 
-function format(str) {
-  str = str.split('\r').join('').replace(/\n{3,}/g, '\n\n');
-  var re = /^ *(#{1,6}) *([^\n]+?) *#* *(?:\n+|$)([\s\S]+?)\n/gm;
+/**
+ * Basic markdown corrective formatting
+ */
+
+exports.format = function format(str) {
+  str = str.replace(/(?:\r\n|\n){3,}/g, '\n\n');
+  var re = /^ *(#{1,6})[ \t]*([^\n]+?)[ \t]*#*[ \t]*(?:\n+|$)([\s\S]+?)\n/gm;
   var match;
 
   while (match = re.exec(str)) {
-    str = str.replace(match[2], function (_) {
-      return _ + '\n';
+    str = str.replace(match[2], function (match) {
+      return match + '\n';
     });
   }
-  return str.replace(/^\s+|\s+$/g, '');
-}
+  return str.trim();
+};
 
 /**
  * Format headings
@@ -153,20 +166,16 @@ function format(str) {
  * @api public
  */
 
-function headings(str) {
+exports.headings = function headings(str) {
   var re = /^\s*(`{3})\s*(\S+)?\s*([\s\S]+?)\s*(`{3})\s*(?:\n+|$)/gm;
   str = str.replace(/^#/gm, '##');
   return str.replace(re, function (match) {
     return match.replace(/^##/gm, '#');
   });
-}
+};
 
 /**
  * Format markdown, adjusts beginning and ending whitespace only.
- *
- * @method format
- * @param   {String}  str
- * @return  {String}
  */
 
 function whitespace(str) {
@@ -175,10 +184,6 @@ function whitespace(str) {
 
 /**
  * Format markdown, aggressive whitespace re-formatting.
- *
- * @method format
- * @param   {String}  str
- * @return  {String}
  */
 
 function aggressive(str) {
