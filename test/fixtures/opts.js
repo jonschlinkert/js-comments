@@ -48,9 +48,7 @@ var Options = module.exports = function(options) {
 };
 
 
-/**
- * ## .option
- *
+/** 
  * Set or get an option.
  *
  * ```js
@@ -78,9 +76,7 @@ Options.prototype.option = function(key, value) {
 };
 
 
-/**
- * ## .set
- *
+/** 
  * Assign `value` to `key` or return the value of `key`.
  *
  * ```js
@@ -100,9 +96,7 @@ Options.prototype.set = function(key, value) {
 };
 
 
-/**
- * ## .get
- *
+/** 
  * Return the stored value of `key`.
  *
  * ```js
@@ -122,9 +116,7 @@ Options.prototype.get = function(key) {
 };
 
 
-/**
- * ## .enabled
- *
+/** 
  * Check if `key` is enabled (truthy).
  *
  * ```js
@@ -147,9 +139,7 @@ Options.prototype.enabled = function(key) {
 };
 
 
-/**
- * ## .disabled
- *
+/** 
  * Check if `key` is disabled (falsey).
  *
  * ```js
@@ -172,9 +162,7 @@ Options.prototype.disabled = function(key) {
 };
 
 
-/**
- * ## .enable
- *
+/** 
  * Enable `key`.
  *
  * **Example**
@@ -194,9 +182,7 @@ Options.prototype.enable = function(key) {
 };
 
 
-/**
- * ## .disable
- *
+/** 
  * Disable `key`.
  *
  * **Example**

@@ -1,0 +1,1 @@
+<%= comment.prefix ? comment.prefix + " " : "## " %>

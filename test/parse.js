@@ -7,9 +7,10 @@
 
 'use strict';
 
-var fs = require('fs');
-var comments = require('../lib');
+/* deps:mocha */
 require('should');
+var fs = require('fs');
+var comments = require('..');
 
 var comment = [
   '/*!',

@@ -11,7 +11,10 @@
   "bugs": {
     "url": "https://github.com/jonschlinkert/js-comments/issues"
   },
-  "license": "MIT",
+  "license": {
+    "type": "MIT",
+    "url": "https://github.com/jonschlinkert/js-comments/blob/master/LICENSE"
+  },
   "files": [
     "index.js",
     "lib/"
@@ -24,17 +27,13 @@
     "test": "mocha"
   },
   "dependencies": {
-    "frep": "^0.2.3",
-    "globby": "^1.1.0",
     "js-comments-template": "^0.4.2",
-    "lodash": "^3.3.0",
-    "lodash-helpers": "^0.1.0",
-    "parse-comments": "^0.3.3",
-    "relative": "^1.2.0",
-    "repeat-string": "^1.5.0"
+    "lodash": "^3.5.0",
+    "parse-comments": "^0.3.3"
   },
   "devDependencies": {
-    "mocha": "^1.19.0"
+    "mocha": "^1.19.0",
+    "should": "^5.2.0"
   },
   "keywords": [
     "api",
