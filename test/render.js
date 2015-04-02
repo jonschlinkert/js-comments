@@ -51,7 +51,7 @@ describe('.render():', function () {
   describe('doc:', function () {
     it('should create a template from the `doc` property', function () {
       var ctx = comments.filter(comments.parse(fixture['doc']));
-      trim(comments.format(comments.render(ctx))).should.equal('');
+      trim(comments.format(comments.render(ctx))).should.equal('{%= docs("foo") %}');
     });
   });
 });

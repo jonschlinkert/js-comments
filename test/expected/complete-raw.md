@@ -8,8 +8,6 @@ Set a parser that can later be used to parse any given string.
 
 
 
-
-
 ```js
 strings.parser (name, replacements)
 ```
