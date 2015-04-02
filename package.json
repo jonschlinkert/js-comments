@@ -1,7 +1,7 @@
 {
   "name": "js-comments",
   "description": "Parse JavaScript code comments and generate API documentation.",
-  "version": "0.3.9",
+  "version": "0.4.0",
   "homepage": "https://github.com/jonschlinkert/js-comments",
   "author": {
     "name": "Jon Schlinkert",
@@ -16,8 +16,8 @@
     "url": "https://github.com/jonschlinkert/js-comments/blob/master/LICENSE"
   },
   "files": [
-    "index.js",
-    "lib/"
+    "templates/",
+    "index.js"
   ],
   "main": "index.js",
   "engines": {
@@ -27,13 +27,14 @@
     "test": "mocha"
   },
   "dependencies": {
-    "js-comments-template": "^0.4.2",
-    "lodash": "^3.5.0",
-    "parse-comments": "^0.3.3"
+    "js-comments-template": "^0.5.0",
+    "lodash": "^3.6.0",
+    "parse-comments": "^0.4.0"
   },
   "devDependencies": {
     "mocha": "^1.19.0",
-    "should": "^5.2.0"
+    "should": "^5.2.0",
+    "to-exports": "^0.1.0"
   },
   "keywords": [
     "api",
