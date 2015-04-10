@@ -13,7 +13,7 @@
 
 var parse = require('parse-comments');
 var template = require('js-comments-template');
-var _ = require('lodash').runInContext();
+var _ = require('lodash');
 
 /**
  * Parse comments from the given `str`.
@@ -34,7 +34,7 @@ exports.parse = parse;
  */
 
 exports.render = function render(comments, options) {
-  var opts = _.extend({file: {path: '', comments: comments}}, options);
+  var opts = _.merge({file: {path: '', comments: comments}}, options);
   if (opts.filter !== false) {
     opts.file.comments = exports.filter(opts.file.comments, opts);
   }
@@ -51,6 +51,21 @@ exports.render = function render(comments, options) {
 };
 
 /**
+ * Basic markdown corrective formatting
+ */
+
+exports.format = function format(str) {
+  str = str.replace(/(?:\r\n|\n){3,}/g, '\n\n');
+  var re = /^(#{1,6})\s*([^\n]+)/gm;
+  var match;
+
+  while(match = re.exec(str)) {
+    str = str.split(match[0]).join(match[0] + '\n');
+  }
+  return str.trim();
+};
+
+/**
  * Filter and normalize the given `comments` object.
  *
  * @param  {Object} `comments`
@@ -59,7 +74,9 @@ exports.render = function render(comments, options) {
  */
 
 exports.filter = function filter(comments, opts) {
+  comments = comments || [];
   opts = opts || {};
+
   var len = comments.length, i = 0;
   var res = [];
 
@@ -115,7 +132,7 @@ exports.filter = function filter(comments, opts) {
     }
 
     var text = heading.text;
-    var prefix = '######'.slice(0, lvl);
+    var prefix = '######'.slice(0, lvl + 1);
 
     o.prefix = prefix;
     o.lvl = lvl;
@@ -131,7 +148,7 @@ exports.filter = function filter(comments, opts) {
 
     if (o.doc) {
       var tmp = o.doc;
-      var tag = ('{%= docs("' + tmp + '") %}');
+      var tag = makeTag(tmp, opts);
       o.doc = null;
       o.description = o.description || '';
       o.description = tag + '\n\n' + o.description;
@@ -142,39 +159,7 @@ exports.filter = function filter(comments, opts) {
   return res;
 };
 
-/**
- * Basic markdown corrective formatting
- */
-
-exports.format = function format(str) {
-  str = str.replace(/(?:\r\n|\n){3,}/g, '\n\n');
-  var re = /^ *(#{1,6})[ \t]*([^\n]+?)[ \t]*#*[ \t]*(?:\n+|$)([\s\S]+?)\n/gm;
-  var match;
-
-  while (match = re.exec(str)) {
-    str = str.replace(match[2], function (match) {
-      return match + '\n';
-    });
-  }
-  return str.trim();
-};
-
-/**
- * Format headings
- *
- * Adjust heading levels. Adds one heading level next
- * to all markdown headings to make them correct within
- * the scope of the inheriting document. Headings in
- * fenced code blocks are skipped.
- *
- * @return {String}
- * @api public
- */
-
-exports.headings = function headings(str) {
-  var re = /^\s*(`{3})\s*(\S+)?\s*([\s\S]+?)\s*(`{3})\s*(?:\n+|$)/gm;
-  str = str.replace(/^#/gm, '##');
-  return str.replace(re, function (match) {
-    return match.replace(/^##/gm, '#');
-  });
-};
+function makeTag(str, opts) {
+  if (opts && opts.tag) return opts.tag(str);
+  return '<%= docs("' + str + '") %>';
+}
