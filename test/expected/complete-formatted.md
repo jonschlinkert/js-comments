@@ -1,4 +1,4 @@
-## [.parser](#L27)
+### [.parser](#L27)
 
 Set a parser that can later be used to parse any given string.
 
