@@ -18,13 +18,8 @@ var _ = require('lodash');
 /**
  * Parse comments from the given `str`.
  *
- * ```js
- * comments.parse(str, options);
- * ```
- *
  * @param  {String} `str` The string to parse.
  * @return  {Object} Object of comments.
- * @api public
  */
 
 exports.parse = parse;
@@ -33,14 +28,9 @@ exports.parse = parse;
  * Process the given Lo-dash `template` string, passing a
  * `comments` object as context.
  *
- * ```js
- * comments.render(obj, options);
- * ```
- *
  * @param  {String} `template` The lo-dash template to use.
  * @param  {Object} `comments` Object of comments.
  * @return {String}
- * @api public
  */
 
 exports.render = function render(comments, options) {
@@ -148,7 +138,7 @@ exports.filter = function filter(comments, opts) {
     o.lvl = lvl;
 
     if (text) {
-      if (heading.prefix) {
+      if (heading.prefix && heading.prefix === '.' && text.charAt(0) !== '.') {
         text = heading.prefix + text;
         heading = null;
       }
