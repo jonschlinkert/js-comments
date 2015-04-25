@@ -79,7 +79,7 @@ exports.render = function render(comments, options) {
 exports.format = function format(str) {
   str = str.replace(/(?:\r\n|\n){3,}/g, '\n\n');
   var headingRe = /^(#{1,6})\s*([^\n]+)\s*/gm;
-  var boldRe = /^\s*\*\*([^\n]+)\*\*\s*/gm;
+  var boldRe = /^\s+\*\*([^\n]+)\*\*(?=\n)\s+/gm;
   var match;
 
   while(match = headingRe.exec(str)) {
@@ -161,6 +161,7 @@ exports.filter = function filter(comments, opts) {
     o.line = o.end ? (o.end + 2) : o.begin;
 
     o.examples = o.examples || [];
+
     o.examples.forEach(function (example) {
       o.description = o.description.split(example.block).join('');
       o.description = o.description.split(/\s+\*\*Examples?\*\*\s+/).join('\n');
