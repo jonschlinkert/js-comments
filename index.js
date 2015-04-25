@@ -11,8 +11,13 @@
  * Module dependencies.
  */
 
+var fs = require('fs');
+var path = require('path');
+var relative = require('relative');
 var parse = require('parse-comments');
 var template = require('js-comments-template');
+var helpers = require('logging-helpers');
+var writeFile = require('write');
 var _ = require('lodash');
 
 /**
@@ -44,19 +49,26 @@ exports.parse = parse;
  */
 
 exports.render = function render(comments, options) {
-  var opts = _.merge({file: {path: '', comments: comments}}, options);
+  var defaults = {file: {path: ''}};
+  var opts = _.merge({}, defaults, options);
+  opts.file.path = relative(opts.src || opts.path || opts.file.path || '');
+
+  var ctx = _.cloneDeep(opts);
+  ctx.file.comments = comments;
+  _.merge(ctx, comments.options);
+
   if (opts.filter !== false) {
-    opts.file.comments = exports.filter(opts.file.comments, opts);
+    ctx.file.comments = exports.filter(ctx.file.comments, ctx);
   }
 
   var settings = {};
-  settings.imports = opts.imports || {};
+  settings.imports = _.merge({}, helpers, ctx.imports);
 
-  var fn = opts.engine || _.template;
-  opts.template = opts.template || template;
+  var fn = ctx.engine || _.template;
+  ctx.template = ctx.template || template;
 
-  var result = fn(opts.template, {imports: opts.imports})(opts);
-  if (opts.format) return exports.format(result);
+  var result = fn(ctx.template, settings)(ctx);
+  if (ctx.format) return exports.format(result);
   return result;
 };
 
@@ -66,13 +78,37 @@ exports.render = function render(comments, options) {
 
 exports.format = function format(str) {
   str = str.replace(/(?:\r\n|\n){3,}/g, '\n\n');
-  var re = /^(#{1,6})\s*([^\n]+)/gm;
+  var headingRe = /^(#{1,6})\s*([^\n]+)\s*/gm;
+  var boldRe = /^\s*\*\*([^\n]+)\*\*\s*/gm;
   var match;
 
-  while(match = re.exec(str)) {
-    str = str.split(match[0]).join(match[0] + '\n');
+  while(match = headingRe.exec(str)) {
+    str = str.split(match[0]).join(match[1] + ' ' + match[2] + '\n\n');
+  }
+
+  while(match = boldRe.exec(str)) {
+    str = str.split(match[0]).join('\n**' + match[1] + '**\n\n');
   }
   return str.trim();
+};
+
+/**
+ * Write markdown API documentation to the given `dest` from the code
+ * comments in the given JavaScript `src` file.
+ *
+ * @param  {String} `src` Source file path.
+ * @param  {String} `dest` Destination file path.
+ * @param  {Object} `options`
+ * @return {String} API documentation
+ * @api public
+ */
+
+exports.renderFile = function renderFile(src, dest, options) {
+  var opts = _.merge({src: path.resolve(src), dest: path.resolve(dest)}, options);
+  var str = fs.readFileSync(opts.src, 'utf8');
+  var ctx = exports.filter(exports.parse(str, opts), opts);
+  var res = exports.format(exports.render(ctx, opts)).trim();
+  writeFile.sync(dest, res);
 };
 
 /**
@@ -114,11 +150,50 @@ exports.filter = function filter(comments, opts) {
       o.type = o.type;
     }
 
+    if (o['public']) {
+      o.api = 'public';
+    }
+
     // update line numbers
     o.begin = o.begin || o.comment.begin;
     o.context.begin = o.context.begin || o.begin;
     o.end = o.end || o.comment.end;
     o.line = o.end ? (o.end + 2) : o.begin;
+
+    o.examples = o.examples || [];
+    o.examples.forEach(function (example) {
+      o.description = o.description.split(example.block).join('');
+      o.description = o.description.split(/\s+\*\*Examples?\*\*\s+/).join('\n');
+      o.description = o.description.split(/\n{2,}/).join('\n').replace(/\s+$/, '');
+    });
+
+    if (o.returns && o.returns.length) {
+      o.returns.map(function (ele) {
+        var len = ele.description.length;
+        if (ele.description.charAt(0) === '{' && ele.description[len - 1] === '}') {
+          ele.type = ele.description.slice(1, len - 1);
+          delete ele.description;
+        }
+      });
+    }
+
+    if (o.doc) {
+      if (o.doc.indexOf('./') === 0) {
+        var src = opts.src || o.file && o.file.path;
+        if (src) {
+          var dir = path.dirname(src);
+          o.doc = path.resolve(dir, o.doc);
+          var str = fs.readFileSync(o.doc, 'utf8');
+          o.extras = str;
+        }
+      } else {
+        var tmp = o.doc;
+        var tag = makeTag(tmp, opts);
+        o.doc = null;
+        o.description = o.description || '';
+        o.description = tag + '\n\n' + o.description;
+      }
+    }
 
     if (o.noname) {
       o.heading.text = o.noname;
@@ -158,14 +233,6 @@ exports.filter = function filter(comments, opts) {
       if (/^\.{2,}/.test(o.title)) {
         o.title = '.' + o.title.replace(/^\.+/, '');
       }
-    }
-
-    if (o.doc) {
-      var tmp = o.doc;
-      var tag = makeTag(tmp, opts);
-      o.doc = null;
-      o.description = o.description || '';
-      o.description = tag + '\n\n' + o.description;
     }
     res.push(o);
     o = null;
