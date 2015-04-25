@@ -13,7 +13,9 @@
  *
  * **Example**
  *
+ * ```js
  * {%= docs("example-parser.md") %}
+ * ```
  *
  * @param {String} `name`
  * @param {Object|Array} `arr` Object or array of replacement patterns to associate.

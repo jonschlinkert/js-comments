@@ -44,13 +44,25 @@ describe('.render():', function () {
 
     it('should render a comment when `api: public` IS defined', function () {
       var ctx = comments.filter(comments.parse(fixture.api));
-      trim(comments.render(ctx, {format: true})).should.equal('### [foo](#L12)\n\n* `abc` **{String}**: Short description.\n* `xyz` **{String}**');
+      trim(comments.render(ctx, {format: true})).should.equal('### [foo](#L12)\n\n**Params**\n\n* `abc` **{String}**: Short description.\n* `xyz` **{String}**');
     });
   });
 
   describe('doc:', function () {
     it('should create a template from the `doc` property', function () {
       var ctx = comments.filter(comments.parse(fixture['doc']));
+      trim(comments.format(comments.render(ctx))).should.equal('<%= docs("foo") %>');
+    });
+
+    it('should create a custom tag', function () {
+      var ctx = comments.filter(comments.parse(fixture['doc']), {tag: function (str) {
+        return '{%= docs("' + str + '") %}';
+      }});
+      trim(comments.format(comments.render(ctx))).should.equal('{%= docs("foo") %}');
+    });
+
+    it.skip('should include a document when the `doc` value begins with `./`', function () {
+      var ctx = comments.filter(comments.parse(fixture['doc-path']));
       trim(comments.format(comments.render(ctx))).should.equal('<%= docs("foo") %>');
     });
   });

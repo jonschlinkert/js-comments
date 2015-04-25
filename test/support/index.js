@@ -9,10 +9,9 @@ exports.expected = require('to-exports')(expected, {read: read, filter: filter})
 
 exports.trim = function trim(str) {
   return str.split('\n').map(function (line) {
-    return line.replace(/^\s+|\s+$/g, '');
+    return line.trim();
   }).join('\n');
 };
-
 
 function filter(fp) {
   return true;
