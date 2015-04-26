@@ -15,20 +15,28 @@ var fs = require('fs');
 var path = require('path');
 var relative = require('relative');
 var parse = require('parse-comments');
-var template = require('js-comments-template');
 var helpers = require('logging-helpers');
 var writeFile = require('write');
 var _ = require('lodash');
 
 /**
+ * Default template to use
+ */
+
+var defaultTemplate = require('js-comments-template');
+
+/**
  * Parse comments from the given `str`.
  *
  * ```js
+ * var fs = require('fs');
+ * var str = fs.readFileSync('foo.js', 'utf8');
  * comments.parse(str, options);
  * ```
  *
  * @param  {String} `str` The string to parse.
- * @return  {Object} Object of comments.
+ * @param  {Object} `options` Options to pass to [parse-comments]
+ * @return  {Array} Array of comment objects.
  * @api public
  */
 
@@ -42,13 +50,18 @@ exports.parse = parse;
  * comments.render(obj, options);
  * ```
  *
+ * @param  {Array} `comments` Array of comment objects.
  * @param  {String} `template` The lo-dash template to use.
- * @param  {Object} `comments` Object of comments.
  * @return {String}
  * @api public
  */
 
-exports.render = function render(comments, options) {
+exports.render = function render(comments, template, options) {
+  if (typeof template !== 'string') {
+    options = template;
+    template = null;
+  }
+
   var defaults = {file: {path: ''}};
   var opts = _.merge({}, defaults, options);
   opts.file.path = relative(opts.src || opts.path || opts.file.path || '');
@@ -65,7 +78,7 @@ exports.render = function render(comments, options) {
   settings.imports = _.merge({}, helpers, ctx.imports);
 
   var fn = ctx.engine || _.template;
-  ctx.template = ctx.template || template;
+  ctx.template = template || ctx.template || defaultTemplate;
 
   var result = fn(ctx.template, settings)(ctx);
   if (ctx.format) return exports.format(result);
