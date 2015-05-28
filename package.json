@@ -27,6 +27,7 @@
     "test": "mocha"
   },
   "dependencies": {
+    "arr-union": "^2.0.1",
     "js-comments-template": "^0.7.0",
     "lodash": "^3.7.0",
     "logging-helpers": "^0.4.0",

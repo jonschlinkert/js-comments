@@ -14,6 +14,7 @@
 var fs = require('fs');
 var path = require('path');
 var relative = require('relative');
+var union = require('arr-union');
 var parse = require('parse-comments');
 var helpers = require('logging-helpers');
 var writeFile = require('write');
@@ -173,14 +174,6 @@ exports.filter = function filter(comments, opts) {
     o.end = o.end || o.comment.end;
     o.line = o.end ? (o.end + 2) : o.begin;
 
-    o.examples = o.examples || [];
-
-    o.examples.forEach(function (example) {
-      o.description = o.description.split(example.block).join('');
-      o.description = o.description.split(/\s+\*\*Examples?\*\*\s+/).join('\n');
-      o.description = o.description.split(/\n{2,}/).join('\n').replace(/\s+$/, '');
-    });
-
     if (o.returns && o.returns.length) {
       o.returns.map(function (ele) {
         var len = ele.description.length;
@@ -248,6 +241,18 @@ exports.filter = function filter(comments, opts) {
         o.title = '.' + o.title.replace(/^\.+/, '');
       }
     }
+
+    o.examples = o.examples || [];
+    if (o.name && typeof opts.examples === 'object' && opts.examples.hasOwnProperty(o.name)) {
+      o.examples = union(o.examples, [opts.examples[o.name]]);
+    }
+
+    o.examples.forEach(function (example) {
+      o.description = o.description.split(example.block).join('');
+      o.description = o.description.split(/\s+\*\*Examples?\*\*\s+/).join('\n');
+      o.description = o.description.split(/\n{2,}/).join('\n').replace(/\s+$/, '');
+    });
+
     res.push(o);
     o = null;
   }
