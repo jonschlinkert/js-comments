@@ -244,7 +244,7 @@ exports.filter = function filter(comments, opts) {
 
     o.examples = o.examples || [];
     if (o.name && typeof opts.examples === 'object' && opts.examples.hasOwnProperty(o.name)) {
-      o.examples = union(o.examples, [opts.examples[o.name]]);
+      o.examples = union(o.examples, opts.examples[o.name]);
     }
 
     o.examples.forEach(function (example) {
