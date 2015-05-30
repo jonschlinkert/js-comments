@@ -1,7 +1,7 @@
 {
   "name": "js-comments",
   "description": "Parse JavaScript code comments and generate API documentation.",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "homepage": "https://github.com/jonschlinkert/js-comments",
   "author": {
     "name": "Jon Schlinkert",
@@ -11,10 +11,7 @@
   "bugs": {
     "url": "https://github.com/jonschlinkert/js-comments/issues"
   },
-  "license": {
-    "type": "MIT",
-    "url": "https://github.com/jonschlinkert/js-comments/blob/master/LICENSE"
-  },
+  "license": "MIT",
   "files": [
     "templates/",
     "index.js"
